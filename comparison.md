@@ -1,106 +1,117 @@
-# 四大图像 AI 模型横向对比矩阵
+# 图像 AI 模型横向对比矩阵（v2 · 刷新版）
 
-> 时间锚定：2025 Q4 – 2026 Q1
-> 对比对象：**Seedream 4.0**（字节跳动）· **Nano Banana / Gemini 2.5 Flash Image**（Google DeepMind）· **Imagen 4 Fast**（Google DeepMind）· **FLUX 2 Pro**（Black Forest Labs）
+> 更新时间：2026-04-21
+> 阵容：**Seedream 5.0（旗舰，Preview）** · **Seedream 5.0 Lite** · **Nano Banana (Gemini 2.5 Flash Image)** · **Nano Banana Pro (Gemini 3 Pro Image)** · **Imagen 4 Fast**
+> 对照参考：**FLUX 2 Pro**（Black Forest Labs）
 
 ---
 
 ## 1. 一览表：核心参数
 
-| 维度 | Seedream 4.0 | Nano Banana (2.5 Flash Image) | Imagen 4 Fast | FLUX 2 Pro |
-|---|---|---|---|---|
-| **研发团队** | 字节跳动 豆包 Seed | Google DeepMind | Google DeepMind | Black Forest Labs |
-| **发布时间** | 2025-09-09 | 2025-08-26（GA 2025-10） | 2025-05 预览 → 2025-08-14 GA | 2025-11-25 |
-| **技术路线** | Diffusion Transformer (DiT) | 原生多模态 LLM（自回归） | 扩散模型（Imagen 家族） | Rectified Flow Transformer + Mistral 3 24B VLM 编码器 |
-| **最大分辨率** | 4K | 1K 级（Pro 版 4K） | 2K | 4MP（~2K×2K） |
-| **长宽比** | 自适应 / 自定义 | 10 档（21:9、16:9、1:1 等） | 5 档常见比例 | 灵活 |
-| **中文渲染** | **★★★★★** 业界最强 | ★★★（Pro 版 ★★★★） | ★★ | ★★ |
-| **英文文字渲染** | ★★★★ | ★★★★（Pro ★★★★★） | ★★★★ | ★★★★★ |
-| **对话式多轮编辑** | ★★★ | **★★★★★** | ☆（Fast 不支持编辑） | ★★★ |
-| **多图/参考一致性** | ★★★★ | ★★★★ | ☆ | **★★★★★（最多 10 张）** |
-| **世界知识 / 推理** | ★★★★ | **★★★★★**（Pro 支持 Google Search Grounding） | ★★★ | ★★★ |
-| **SynthID 水印** | 无 | 强制（Pro 版加 C2PA） | 强制 | 无 |
-| **开源权重** | 否 | 否 | 否 | 是（[dev] 档） |
+| 维度 | Seedream 5.0（Preview） | Seedream 5.0 Lite | Nano Banana (2.5 Flash Image) | Nano Banana Pro (3 Pro Image) | Imagen 4 Fast | FLUX 2 Pro（对照） |
+|---|---|---|---|---|---|---|
+| **研发团队** | 字节跳动 豆包 Seed | 字节跳动 豆包 Seed | Google DeepMind | Google DeepMind | Google DeepMind | Black Forest Labs |
+| **发布状态** | **未 GA**，仅 Preview | **已 GA（2026-02-13）** | GA（2025-10） | GA（2025-11-20） | GA（2025-08-14） | GA（2025-11-25） |
+| **技术路线** | DiT + 智能层（Visual CoT / 流式 / 检索增强） *[Preview]* | DiT + CoT 推理 + 联网检索 | 原生多模态 LLM（自回归） | 原生多模态 LLM（Gemini 3 Pro 底层） | 扩散（Imagen 4 家族） | Rectified Flow Transformer + Mistral 3 24B VLM |
+| **最大分辨率** | 2K 直接 / 4K AI 增强 *[Preview]* | 2K | 4K（分档计价） | **原生 2K & 4K** | 2K | 4MP（~2K×2K） |
+| **中文渲染** | SOTA *[Preview]* | **★★★★★** | ★★★ | ★★★★ | ★★ | ★★ |
+| **英文 / 多语言文字渲染** | 强 *[Preview]* | ★★★★ | ★★★★ | **★★★★★ SOTA** | ★★★★ | ★★★★★ |
+| **对话式多轮编辑** | 强（流式交互） *[Preview]* | ★★★ | **★★★★★** | ★★★★★ | ☆（Fast 不支持编辑） | ★★★ |
+| **多图 / 参考一致性** | 很强 *[Preview]* | ★★★★ | ★★★★ | ★★★★ | ☆ | **★★★★★（10 张）** |
+| **世界知识 / 推理** | 强（含实时检索） *[Preview]* | ★★★★ | ★★★ | **★★★★★（Google Search Grounding）** | ★★★ | ★★★ |
+| **SynthID / 水印** | 无 | 无 | SynthID | **SynthID + C2PA** | SynthID | 无 |
+| **开源权重** | 否 | 否 | 否 | 否 | 否 | **是（[dev] 档）** |
 
 ---
 
-## 2. 价格与延迟对比（官方 / 主流托管报价）
+## 2. 价格对比（官方权威定价）
 
-| 模型 | 官方价格/张 | 第三方托管 | 典型延迟 |
-|---|---|---|---|
-| **Seedream 4.0** | 约 ¥0.2 / 张（火山引擎） | fal.ai / 302.AI ~\$0.03 | 2–5 s |
-| **Nano Banana (2.5 Flash Image)** | \$0.039（1290 tokens × \$30/M） | OpenRouter、fal.ai 类似 | 几秒 |
-| **Nano Banana Pro (3 Pro Image)** | \$0.134 /张（1K–2K），4K 更高 | 聚合渠道 ~\$0.09 | 10–20 s |
-| **Imagen 4 Fast** | **\$0.02 / 张**（最便宜） | Vertex AI 同价 | 1–3 s |
-| Imagen 4 (Standard) | \$0.04 / 张 | — | ~3 s |
-| Imagen 4 Ultra | \$0.06 / 张 | — | ~5 s |
-| **FLUX 2 Pro** | ~\$0.03–\$0.06 / 张（因分辨率） | fal.ai / Replicate 类似 | 几秒（klein 亚秒） |
+| 模型 | 1K / 张 | 2K / 张 | 4K / 张 | Batch API | 备注 |
+|---|---|---|---|---|---|
+| Seedream 5.0（Preview） | 未公布 | 未公布 | 未公布 | — | 旗舰未 GA，价格待定 |
+| **Seedream 5.0 Lite** | \$0.035（统一价，第三方代理）[A] | — | — | — | 火山引擎新人 ¥19 起；高级版年付 ¥200k 含 220 万张 |
+| **Nano Banana (2.5 Flash Image)** | \$0.067 | \$0.101 | \$0.151 | -50% | 官方 Gemini API[B] |
+| **Nano Banana Pro (3 Pro Image)** | **\$0.134** | **\$0.134** | **\$0.24** | -50% | 官方 Gemini API；1K/2K 同价[B] |
+| **Imagen 4 Fast** | **\$0.02**（全档统一） | — | — | — | 四家最便宜[B] |
+| Imagen 4 (Standard) | \$0.04 | — | — | — | [B] |
+| Imagen 4 Ultra | \$0.06 | — | — | — | [B] |
+| FLUX 2 Pro | \$0.03–\$0.06 | — | — | — | 随分辨率/参考图[C] |
 
-> 价格数据以 Gemini API 定价页[A]、火山引擎计费文档[B]、bfl.ai 与 fal.ai 定价页为准；汇率按 1 USD ≈ 7.2 CNY 估算。
->
-> [A] https://ai.google.dev/gemini-api/docs/pricing?hl=zh-cn
-> [B] https://www.volcengine.com/docs/82379/1544106
+[A] APIYi · Seedream 5.0 Lite API Guide: https://help.apiyi.com/en/seedream-5-0-lite-api-guide-cheaper-than-4-5-en.html
+[B] Gemini API 定价页: https://ai.google.dev/gemini-api/docs/pricing
+[C] bfl.ai / fal.ai 定价页
 
 ---
 
-## 3. 基准评测位置（截至 2025 年末）
+## 3. 延迟对比
 
-| 榜单 | 榜首 / Top 候选 | 简评 |
-|---|---|---|
-| **LMArena Image Arena** | Nano Banana 首发夺冠 | 匿名投票，角色一致性与多轮编辑驱动 |
-| **Artificial Analysis 图像编辑** | Nano Banana Elo ≈ 1212 | 编辑榜 #1 |
-| **Artificial Analysis 文生图** | GPT-4o Image、字节即梦系列 | Nano Banana 略逊，Seedream 3.0 排第 5 |
-| **中文场景实测（302.AI）** | Seedream 4.0 | 人物一致性 / 视角拟真度全面胜出 Nano Banana |
-| **照片级写实（独立评测）** | FLUX 2 Pro / Nano Banana Pro | 两者并驾齐驱 |
+| 模型 | 典型延迟 |
+|---|---|
+| FLUX 2 [klein] | 亚秒 |
+| Imagen 4 Fast | 1–3 s |
+| Nano Banana (2.5 Flash Image) | 几秒 |
+| Seedream 5.0 Lite | 几秒 |
+| FLUX 2 Pro / Seedream 5.0 旗舰（Preview） | 几秒 |
+| **Nano Banana Pro (3 Pro Image)** | **10–20 s**（高分辨率更久，非实时定位） |
 
 ---
 
 ## 4. 场景 → 模型推荐表
 
-下表按"业务场景"倒查最适合的模型。若有多个合适，按优先级排序。
-
 | 业务场景 | 首选 | 次选 | 备注 |
 |---|---|---|---|
-| **中文电商主图 / 详情页 / 海报** | **Seedream 4.0** | Nano Banana Pro | 中文排版 + 东方审美 + 4K 原生，国内合规优先 |
-| **中文广告物料、带 slogan 的 KV** | **Seedream 4.0** | Nano Banana Pro | Seedream 3/4 是目前中文渲染最稳的 |
-| **社交媒体图文、图集、分镜** | **Nano Banana** | Seedream 4.0 | 对话式修改 + 多轮一致性 |
-| **对话式 Photoshop / 修图迭代** | **Nano Banana / Nano Banana Pro** | FLUX 2 Pro（配合参考图） | 自回归 LLM 天然适合 |
-| **设计原型 / UI 草图 / 头脑风暴** | **Imagen 4 Fast** | Nano Banana | 价格最低、稳定、批量快 |
-| **批量广告素材 A/B 变体（英文）** | **Imagen 4 Fast** | FLUX 2 Klein | \$0.02/张成本优势明显 |
-| **游戏素材 / 概念原画 / 角色立绘** | **FLUX 2 Pro**（10 张参考保持角色） | Nano Banana Pro（风格一致） | 多参考图 + 写实 |
-| **电影级写实广告大片 / 产品摄影** | **FLUX 2 Pro** | Nano Banana Pro | 肤质、光影、景深最强 |
-| **信息图 / 图表 / 带长文本排版** | **Nano Banana Pro** | FLUX 2 Pro | 文字渲染 + 世界知识 |
-| **本地部署 / 私有化 / 数据合规** | **FLUX 2 [dev]**（开源权重） | — | 唯一提供开源档位的 |
-| **需要 Google Search Grounding 的真实事件配图** | **Nano Banana Pro** | — | 独有能力 |
-| **小字 / 解谜 / 填字 / 中式艺术字** | **Seedream 4.0** | — | 官方着重强调的 4.0 升级点 |
-| **角色 IP 多场景延展（漫画/分镜/故事板）** | **Nano Banana / FLUX 2 Pro** | Seedream 4.0 多图参考 | Nano Banana 胜在对话一致；FLUX 2 胜在 10 张参考 |
-| **最快出图原型（亚秒）** | **FLUX 2 [klein]** | Imagen 4 Fast | 实时交互 / 画笔式工作流 |
+| **中文电商主图 / 详情页 / 海报** | **Seedream 5.0 Lite** | 旗舰 5.0（GA 后） | 中文渲染 SOTA + \$0.035/图 性价比 |
+| **中文广告 slogan / KV / 品牌延展** | **Seedream 5.0 Lite** | Seedream 4.5 / 旗舰 5.0 | 中文文字 + 排版 |
+| **需要实时事件 / 时效数据的配图** | **Nano Banana Pro** | Seedream 5.0 Lite | Pro = Google Search Grounding；Lite = 中文 + 联网检索 |
+| **对话式修图 / 多轮迭代改稿** | **Nano Banana** | Nano Banana Pro | 便宜快的对话式首选；Pro 用于高质量定稿 |
+| **角色一致的分镜 / 故事板** | **Nano Banana Pro** | Seedream 5.0 Lite | Pro 一致性更稳 |
+| **专业信息图 / 带长文本排版 / 多语言本地化** | **Nano Banana Pro** | FLUX 2 Pro | SOTA 文字 + 世界知识 |
+| **UI / 设计草图 / 原型** | **Imagen 4 Fast** | Nano Banana | \$0.02 + 1-3 s |
+| **英文批量广告素材 A/B 变体** | **Imagen 4 Fast** | FLUX 2 [klein] | 成本最低 |
+| **照片级写实 / 产品摄影大片** | **FLUX 2 Pro** | Nano Banana Pro | BFL 写实档位 |
+| **游戏角色立绘 / 多参考 IP 一致性** | **FLUX 2 Pro**（10 张参考） | Seedream 5.0 Lite | 10 张参考上限独一份 |
+| **本地部署 / 数据合规 / 私有化** | **FLUX 2 [dev]**（开源） | — | 四家里唯一可私有化 |
+| **企业合规图像生产（C2PA 溯源）** | **Nano Banana Pro** | — | 默认 SynthID + C2PA |
 
 ---
 
-## 5. 决策树（简版）
+## 5. 决策树（v2）
 
 ```
-问：你的主要需求是什么？
+你的首要需求是什么？
 │
-├── 1) 中文 / 东方审美 / 中文排版？          → Seedream 4.0
+├── 1) 中文内容 / 海报 / 中文字符精准渲染？
+│      └── 首选：Seedream 5.0 Lite（已 GA + \$0.035/图）
+│           旗舰 5.0 GA 后升级为首选
 │
-├── 2) 要像聊天一样反复改图，保持角色一致？  → Nano Banana（免费/便宜）或 Nano Banana Pro（更高质量）
+├── 2) 需要实时事件 / 时效性数据准确的图像？
+│      └── 首选：Nano Banana Pro（Google Search Grounding）
+│           次选：Seedream 5.0 Lite（联网检索）
 │
-├── 3) 想要照片级真实感、10 张参考图、角色 IP？→ FLUX 2 Pro
+├── 3) 对话式反复改图、多轮保持角色一致？
+│      ├── 快而便宜：Nano Banana（\$0.067 起）
+│      └── 高质量定稿：Nano Banana Pro（\$0.134 起）
 │
-├── 4) 成本敏感 + 大批量 + 英文？            → Imagen 4 Fast（\$0.02/张）
+├── 4) 专业信息图 / 多语言文字 / 长文本排版？
+│      └── 首选：Nano Banana Pro（SOTA 文字）
 │
-├── 5) 需要本地部署 / 数据不出域？           → FLUX 2 [dev]（开源权重）
+├── 5) 照片级写实 / 10 张参考图 / 角色 IP？
+│      └── 首选：FLUX 2 Pro
 │
-└── 6) 需要结合实时世界信息（体育、时事）？  → Nano Banana Pro（Google Search Grounding）
+├── 6) 英文批量、成本极致敏感？
+│      └── 首选：Imagen 4 Fast（\$0.02/图）
+│
+└── 7) 数据不出域 / 私有化部署？
+       └── FLUX 2 [dev]（开源权重）
 ```
 
 ---
 
-## 6. 关键差异一句话总结
+## 6. 一句话差异化总结（v2）
 
-- **Seedream 4.0** = 中文世界里最能打的"DiT 统一编辑"，海报/电商/中文广告无敌手。
-- **Nano Banana** = 原生多模态 LLM 带来的"对话式改图体验"代际优势，角色一致性最强。
-- **Imagen 4 Fast** = 成本/速度/稳定性三角的最佳平衡，英文批量场景首选。
-- **FLUX 2 Pro** = 写实画质 + 多参考图 + 有开源档位，工业级写实与合规友好的唯一选择。
+- **Seedream 5.0（Preview）** = "智能层"升级的下一代 DiT：Visual CoT + 流式生成 + 实时检索；未 GA，建议关注。
+- **Seedream 5.0 Lite** = 中文世界的"主力产线"：\$0.035、联网检索、CoT、已 GA 可用。
+- **Nano Banana** = 对话式多轮编辑的代际优势版，快而便宜。
+- **Nano Banana Pro** = Gemini 3 Pro 下的"工作室级"图像：SOTA 文字 + 世界知识 Grounding + 2K/4K。
+- **Imagen 4 Fast** = \$0.02/图，英文批量场景 TCO 最优。
+- **FLUX 2 Pro（对照）** = 照片级写实 + 10 张参考图 + 唯一开源档位。
